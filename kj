@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+import sys
+import pickle
+import argparse
+
+def load_index(filename):
+    with open(filename, 'rb') as f:
+        return pickle.load(f)
+
+def ke(kanji):
+    return load_index('ke.pickle')[kanji]
+
+def ek(english):
+    return load_index('ek.pickle')[english]
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser('rtk')
+    parser.add_argument('mode', choices=['english', 'kanji', 'e', 'k'])
+    parser.add_argument('keyword')
+
+    args = parser.parse_args()
+
+    if args.mode in ('kanji', 'k'):
+        print(ke(args.keyword))
+    elif args.mode in ('english', 'e'):
+        print(ek(args.keyword))
+    else:
+        print('usage: rtk [kanji|english] [keyword]')
+
